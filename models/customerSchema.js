@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// define the Schema (the structure of the data)
+// define the Schema (the structure of the object sent to data)
 const userSchema = new Schema({
   FirstName: String,
   LastName: String,

@@ -34,8 +34,8 @@
 
       <nav class="px-2 mt-4 d-flex flex-wrap justify-content-between" aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Ali Hassan</li>
+         
+          <h4 class="breadcrumb-item active" aria-current="page">Ali Hassan</h4>
         </ol>
 
         <p class="me-md-5">
@@ -44,7 +44,7 @@
       </nav>
 
       <!-- to edit when edit button is pressed -->
-      <form action="/edit/<%= obj._id %>?_method=PUT" method="post" class="mx-0 row gx-3 gy-4 mt-2">
+      <form action="/edit/<%= obj._id %>?_method=PUT" method="post" class="mx-0 row gx-3 gy-4 mt-2" onsubmit="return validateForm()">
         <div class="col-md-6">
           <label for="inputfirstName4" class="form-label">First Name:</label>
           <input value="<%= obj.FirstName %>" name="FirstName" type="text" class="form-control" id="inputfirstName4" />
@@ -145,6 +145,31 @@
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="../js/sidebars.js"></script>
   <script src="../js/main.js"></script>
+  <script>
+    function validateForm() {
+      var firstName = document.getElementById("inputfirstName4").value.trim();
+      var lastName = document.getElementById("inputlastName4").value.trim();
+      var email = document.getElementById("inputemail4").value.trim();
+      var telephone = document.getElementById("inputtele4").value.trim();
+      var age = document.getElementById("inputage4").value.trim();
+      var country = document.getElementById("inputCountry").value.trim();
+      var gender = document.getElementById("inputGender").value.trim();
+
+      if (firstName === '' || lastName === '' || email === '' || telephone === '' || age === '' || country === 'Choose here ...' || gender === 'Choose here ...') {
+        alert('All fields are required');
+        return false;
+      }
+
+      // Validate telephone number format
+      var telephonePattern = /^\d{10}$/;
+      if (!telephonePattern.test(telephone)) {
+        alert('Please enter a valid 10-digit telephone number');
+        return false;
+      }
+
+      return true;
+    }
+  </script>
 </body>
 
 </html>

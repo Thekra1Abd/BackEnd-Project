@@ -1,134 +1,189 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
-  <head>
+<head>
     <script src="../js/color-modes.js"></script>
-    <link
-      rel="stylesheet"
-      href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css"
-    />
+    <link rel="stylesheet" href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css"/>
     <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon">
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta
-      name="author"
-      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
-    />
-    <meta name="generator" content="Hugo 0.112.5" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors"/>
+    <meta name="generator" content="Hugo 0.112.5"/>
     <title>Home page</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="../css/dark-light.css">
 
     <!-- Custom styles for this template -->
-    <link href="../css/sidebars.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/myStyle.css" />
-  </head>
-  <body>
-    <%- include('../Components/dark-light.ejs') %>
+    <link href="../css/sidebars.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/myStyle.css"/>
+</head>
+<body>
+<%- include('../Components/dark-light.ejs') %>
 
-    <main class="d-flex flex-nowrap">
-      <%- include('../Components/sidebar.ejs', {currentPage: "add"}) %>
+<main class="d-flex flex-nowrap">
+    <%- include('../Components/sidebar.ejs', {currentPage: "add"}) %>
 
-      <section class="w-100">
+    <section class="w-100">
 
         <%- include('../Components/navbar.ejs') %>
 
         <!-- To send data to DB -->
-        <form action="/user/add.html" method="post" class="mx-0 row gx-3 gy-4 mt-3">
-          <div class="col-md-6">
-            <label for="inputfirstName4" class="form-label">First Name:</label>
-            <input
-            name="FirstName"
-              placeholder="Enter FirstName..."
-              type="text"
-              class="form-control"
-              id="inputfirstName4"
-            />
-          </div>
-          <div class="col-md-6">
-            <label for="inputlastName4" class="form-label">Last Name:</label>
-            <input
-            name="LastName"
-              placeholder="Enter SecondName..."
-              type="text"
-              class="form-control"
-              id="inputlastName4"
-            />
-          </div>
-
-          <div class="col-md-6">
-            <label for="inputemail4" class="form-label">Email:</label>
-            <input
-            name="Email"
-              placeholder="@gmail.com"
-              type="email"
-              class="form-control"
-              id="inputemail4"
-            />
-          </div>
-          <div class="col-md-6">
-            <label for="inputtele4" class="form-label">Telephone:</label>
-            <input
-              name="Telephone"
-              placeholder="Enter Phone Number"
-              type="number"
-              class="form-control"
-              id="inputtele4"
-            />
-          </div>
-
-          <div>
+        <form action="/user/add.html" method="post" class="mx-0 row gx-3 gy-4 mt-3" onsubmit="return validateForm()">
             <div class="col-md-6">
-              <label for="inputage4" class="form-label">Age:</label>
-              <input
-              name="Age"
-                placeholder="Your Age: ..."
-                type="number"
-                class="form-control"
-                id="inputage4"
-              />
+                <label for="inputfirstName4" class="form-label">First Name:</label>
+                <input
+                    name="FirstName"
+                    placeholder="Enter FirstName..."
+                    type="text"
+                    class="form-control"
+                    id="inputfirstName4"
+                    required
+                />
             </div>
-          </div>
-
-          <div>
             <div class="col-md-6">
-              <label for="inputCountry" class="form-label">Country:</label>
-              <select name="Country" id="inputCountry" class="form-select">
-                <option selected hidden disabled>Choose here ...</option>
-
-                <% var country_list = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"]; %>
-
-                <% country_list.forEach(item => { %>
-                 <option> <%= item %> </option>
-                <% }) %>
-                
-              </select>
+                <label for="inputlastName4" class="form-label">Last Name:</label>
+                <input
+                    name="LastName"
+                    placeholder="Enter SecondName..."
+                    type="text"
+                    class="form-control"
+                    id="inputlastName4"
+                    required
+                />
             </div>
-          </div>
 
-          <div>
             <div class="col-md-6">
-              <label for="inputGender" class="form-label">Gender:</label>
-              <select name="Gender" id="inputGender" class="form-select">
-                <option selected hidden disabled>Choose here ...</option>
-                <option>Male</option>
-                <option>Female</option>
-              </select>
+                <label for="inputemail4" class="form-label">Email:</label>
+                <input
+                    name="Email"
+                    placeholder="@gmail.com"
+                    type="email"
+                    class="form-control"
+                    id="inputemail4"
+                    required
+                />
             </div>
-          </div>
+            <div class="col-md-6">
+                <label for="inputtele4" class="form-label">Telephone:</label>
+                <input
+                    name="Telephone"
+                    placeholder="Enter Phone Number"
+                    type="number"
+                    class="form-control"
+                    id="inputtele4"
+                    required
+                />
+            </div>
 
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
+            <div>
+                <div class="col-md-6">
+                    <label for="inputage4" class="form-label">Age:</label>
+                    <input
+                        name="Age"
+                        placeholder="Your Age: ..."
+                        type="number"
+                        class="form-control"
+                        id="inputage4"
+                        required
+                    />
+                </div>
+            </div>
+
+            <div>
+                <div class="col-md-6">
+                    <label for="inputCountry" class="form-label">Country:</label>
+                    <select name="Country" id="inputCountry" class="form-select" required>
+                        <option selected hidden disabled>Choose here ...</option>
+                        <% var country_list = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"]; %>
+
+                        <% country_list.forEach(item => { %>
+                        <option> <%= item %> </option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <div class="col-md-6">
+                    <label for="inputGender" class="form-label">Gender:</label>
+                    <select name="Gender" id="inputGender" class="form-select" required>
+                        <option selected hidden disabled>Choose here ...</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
-      </section>
-    </main>
-    <script src="../js/bootstrap.bundle.min.js"></script>
+    </section>
+</main>
+<script src="../js/bootstrap.bundle.min.js"></script>
 
-    <script src="../js/sidebars.js"></script>
-    <script src="../js/main.js"></script>
-  </body>
+<script src="../js/sidebars.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+    function validateForm() {
+        var firstName = document.getElementById('inputfirstName4').value;
+        var lastName = document.getElementById('inputlastName4').value;
+        var email = document.getElementById('inputemail4').value;
+        var telephone = document.getElementById('inputtele4').value;
+        var age = document.getElementById('inputage4').value;
+        var country = document.getElementById('inputCountry').value;
+        var gender = document.getElementById('inputGender').value;
+
+        if (firstName.trim() === '') {
+            alert('First Name is required');
+            return false;
+        }
+
+        if (lastName.trim() === '') {
+            alert('Last Name is required');
+            return false;
+        }
+
+        if (email.trim() === '') {
+            alert('Email is required');
+            return false;
+        }
+
+        if (telephone.trim() === '') {
+        alert('Telephone is required');
+        return false;
+    } else if (!isValidPhoneNumber(telephone)) {
+        alert('Please enter a valid 10-digit telephone number');
+        return false;
+    }
+
+        if (age.trim() === '') {
+            alert('Age is required');
+            return false;
+        }
+
+        if (country === null || country === 'Choose here ...') {
+            alert('Please select a Country');
+            return false;
+        }
+
+        if (gender === "Choose here ..." || gender === null) {
+            alert('Please select a Gender');
+            return false;
+        }
+
+        return true;
+    }
+
+    function isValidPhoneNumber(phoneNumber) {
+    // Regular expression to validate 10-digit phone number
+    var phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phoneNumber);
+}
+</script>
+</body>
 </html>

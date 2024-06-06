@@ -1,5 +1,7 @@
+// importing some modules
 const express = require('express')
 const app = express()
+const session = require('express-session');
 const port = process.env.PORT ||3003
 const mongoose = require('mongoose');
 app.use(express.urlencoded({ extended: true }));
@@ -20,6 +22,11 @@ liveReloadServer.watch(path.join(__dirname, 'public'));
 
 const connectLivereload = require("connect-livereload");
 app.use(connectLivereload());
+app.use(session({
+  secret: 'qwer0987', // Change this to a random string
+  resave: false,
+  saveUninitialized: false
+}));
 
 liveReloadServer.server.once("connection", () => {
   setTimeout(() => {

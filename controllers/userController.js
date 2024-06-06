@@ -1,5 +1,104 @@
 const User = require("../models/customerSchema");
+const Admin = require("../models/AdminSchema");
 var moment = require("moment")
+
+const bcrypt = require('bcrypt');
+
+
+const login_get = (req, res) => {
+    res.render('login', { error: null }); // Pass the error variable with a default value of null
+}
+
+const login_post = async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        // Find user by username or email
+        const user = await Admin.findOne({ UserName: username });
+
+        // Check if user exists
+        if (!user) {
+            return res.status(400).render('login', { error: 'Invalid username or password' });
+        }
+
+        // Compare passwords
+        const isMatch = (password === user.Password); // Assuming passwords are stored as plain text for simplicity
+
+        if (!isMatch) {
+            return res.status(400).render('login', { error: 'Invalid username or password' });
+        }
+
+        // Store user data in session
+        req.session.user = {
+            _id: user._id,
+            username: user.UserName,
+
+        };
+        console.log(req.session.user);
+       
+
+       res.redirect('/index'); // Redirect to dashboard after successful login
+    } catch (error) {
+        console.error(error);
+
+    }
+};
+
+
+const register_get = (req, res) => {
+
+    res.render('register', { error: null });
+}
+
+
+
+const register_post = async (req, res) => {
+    try {
+        // Create a new admin object
+        // const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const newAdmin = new Admin({
+            UserName: req.body.username,
+            Email: req.body.email,
+            Password: req.body.password // Store the password as is
+        });
+
+        // Save the admin to the database
+        await newAdmin.save();
+
+        // Redirect to login page on successful registration
+        res.redirect('/login');
+    } catch (error) {
+        // Handle any errors
+        console.error(error);
+        res.status(500).send('Error registering admin');
+    }
+};
+
+const logout_get = (req, res) => {
+    // Destroy the session
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error destroying session:', err);
+        } else {
+            // Redirect to the login page or any other page
+            console.log('session destroyed')
+            res.redirect('/login');
+        }
+    });
+};
+
+const admin_get=(req,res)=>{
+    Admin.find().then((result) => {
+        res.render("admins", { arr: result });
+    }).catch((err) => {
+        console.log(err)
+    });
+}
+
+
+
+
+
 
 const user_index_get = (req, res) => {
     console.log("-----------------------------")
@@ -45,30 +144,33 @@ const user_search_post = (req, res) => {
 
 const user_delete = (req, res) => {
     User.findByIdAndDelete(req.params.id).then(() => {
-        res.redirect("/");
+        res.redirect("/index");
     }).catch((err) => {
         console.log(err)
     })
 }
 
-const user_update= (req, res) => {
+const user_update = (req, res) => {
 
     User.findByIdAndUpdate(req.params.id, req.body).then(() => {
-        res.redirect("/");
+        res.redirect("/index");
     }).catch((err) => {
         console.log(err)
     })
 }
-const user_add_get= (req, res) => {
+const user_add_get = (req, res) => {
     res.render("user/add")
 }
-const user_post= (req, res) => {
+const user_post = (req, res) => {
     User.create(req.body).then(() => {
-        res.redirect("/")
+        res.redirect("/index")
     }).catch((err) => {
         console.log(err)
     })
 }
 //   to export code from this file
-module.exports = { user_index_get, user_edit_get, user_view_get, user_search_post, user_delete, user_update,user_add_get, user_post}
+module.exports = {
+    login_get,
+    login_post, register_get, register_post, logout_get,admin_get, user_index_get, user_edit_get, user_view_get, user_search_post, user_delete, user_update, user_add_get, user_post
+}
 
