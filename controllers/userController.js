@@ -1,19 +1,21 @@
+// importing Schema
 const User = require("../models/customerSchema");
 const Admin = require("../models/AdminSchema");
 var moment = require("moment")
 
-const bcrypt = require('bcrypt');
+
 
 
 const login_get = (req, res) => {
     res.render('login', { error: null }); // Pass the error variable with a default value of null
 }
 
+// 1 to log users and open sessions for them
 const login_post = async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Find user by username or email
+        // Find user by username
         const user = await Admin.findOne({ UserName: username });
 
         // Check if user exists
@@ -35,9 +37,8 @@ const login_post = async (req, res) => {
 
         };
         console.log(req.session.user);
-       
 
-       res.redirect('/index'); // Redirect to dashboard after successful login
+        res.redirect('/index'); // Redirect to dashboard after successful login
     } catch (error) {
         console.error(error);
 
@@ -45,16 +46,17 @@ const login_post = async (req, res) => {
 };
 
 
+
+// 2 get request to get the register view
 const register_get = (req, res) => {
 
     res.render('register', { error: null });
 }
 
 
-
+// 3 to Create a new admin object
 const register_post = async (req, res) => {
     try {
-        // Create a new admin object
         // const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newAdmin = new Admin({
             UserName: req.body.username,
@@ -74,8 +76,9 @@ const register_post = async (req, res) => {
     }
 };
 
+
+ // 4 Destroy the session 
 const logout_get = (req, res) => {
-    // Destroy the session
     req.session.destroy(err => {
         if (err) {
             console.error('Error destroying session:', err);
@@ -87,7 +90,8 @@ const logout_get = (req, res) => {
     });
 };
 
-const admin_get=(req,res)=>{
+// 5 to redirect to admins page
+const admin_get = (req, res) => {
     Admin.find().then((result) => {
         res.render("admins", { arr: result });
     }).catch((err) => {
@@ -95,11 +99,7 @@ const admin_get=(req,res)=>{
     });
 }
 
-
-
-
-
-
+// 6 get and view all user collection in the index
 const user_index_get = (req, res) => {
     console.log("-----------------------------")
     //results= array of objects
@@ -110,6 +110,7 @@ const user_index_get = (req, res) => {
     });
 }
 
+// 7 edit data-> show the edit form
 const user_edit_get = (req, res) => {
     User.findById(req.params.id)
         .then((result) => {
@@ -118,7 +119,7 @@ const user_edit_get = (req, res) => {
             console.log(err)
         });
 }
-
+// 8 view data
 const user_view_get = (req, res) => {
     // result is object
     User.findById(req.params.id)
@@ -129,10 +130,9 @@ const user_view_get = (req, res) => {
         });
 }
 
+// 9 POST requests to search for users
 const user_search_post = (req, res) => {
-
     const searchText = req.body.searchText.trim()
-
     User.find({ $or: [{ FirstName: searchText }, { LastName: searchText }] })
         .then((result) => {
             console.log(result)
@@ -141,6 +141,7 @@ const user_search_post = (req, res) => {
             console.log(err)
         })
 }
+
 
 const user_delete = (req, res) => {
     User.findByIdAndDelete(req.params.id).then(() => {
@@ -151,16 +152,18 @@ const user_delete = (req, res) => {
 }
 
 const user_update = (req, res) => {
-
     User.findByIdAndUpdate(req.params.id, req.body).then(() => {
         res.redirect("/index");
     }).catch((err) => {
         console.log(err)
     })
 }
+
 const user_add_get = (req, res) => {
     res.render("user/add")
 }
+
+// to add students
 const user_post = (req, res) => {
     User.create(req.body).then(() => {
         res.redirect("/index")
@@ -168,9 +171,11 @@ const user_post = (req, res) => {
         console.log(err)
     })
 }
+
+
 //   to export code from this file
 module.exports = {
     login_get,
-    login_post, register_get, register_post, logout_get,admin_get, user_index_get, user_edit_get, user_view_get, user_search_post, user_delete, user_update, user_add_get, user_post
+    login_post, register_get, register_post, logout_get, admin_get, user_index_get, user_edit_get, user_view_get, user_search_post, user_delete, user_update, user_add_get, user_post
 }
 

@@ -30,7 +30,7 @@ router.post("/search", userController.user_search_post);
 // Delete request
 router.delete("/edit/:id", userController.user_delete);
 
-// Edit/PUT request
+// PUT request
 router.put("/edit/:id", userController.user_update);
 
 module.exports = router
